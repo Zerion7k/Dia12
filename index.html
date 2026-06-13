@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Com você, tudo faz sentido 🤍</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:   #faf7f2;
+      --beige:   #f0e9dc;
+      --sand:    #d9c9b0;
+      --gold:    #b89a5a;
+      --gold-lt: #e8d49a;
+      --text:    #3a3128;
+      --muted:   #8a7a68;
+      --white:   #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── PLAYER ── */
+    #music-player {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid var(--sand);
+      border-radius: 50px;
+      padding: 0.5rem 1rem 0.5rem 0.5rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(184,154,90,0.1);
+    }
+    #music-player button {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      background: transparent;
+      color: var(--gold);
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, color 0.2s;
+    }
+    #music-player button:hover {
+      background: var(--gold);
+      color: var(--white);
+    }
+    #music-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ── LINHA DOURADA decorativa ── */
+    .gold-line {
+      display: block;
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 auto;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+    .hero-text {
+      padding: 5rem 4rem 5rem 6vw;
+    }
+    .eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.8rem;
+    }
+    .hero-text h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      font-weight: 300;
+      line-height: 1.2;
+      color: var(--text);
+    }
+    .hero-text h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-text p {
+      margin-top: 1.8rem;
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--muted);
+      max-width: 360px;
+    }
+    .hero-date {
+      margin-top: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sand);
+    }
+    .hero-date::before {
+      content: '';
+      display: block;
+      width: 32px; height: 1px;
+      background: var(--sand);
+    }
+
+    /* foto principal do hero */
+    .hero-photo {
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-photo .main-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* placeholder quando não há foto */
+    .hero-photo .img-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(160deg, var(--beige) 0%, var(--sand) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      color: var(--gold);
+    }
+    .hero-photo .img-placeholder .icon { font-size: 3rem; opacity: 0.5; }
+    .hero-photo .img-placeholder small {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+    /* sobreposição dourada suave */
+    .hero-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(250,247,242,0.3) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    /* ── CITAÇÃO ── */
+    #citacao {
+      padding: 6rem 2rem;
+      text-align: center;
+      background: var(--white);
+    }
+    #citacao blockquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-weight: 300;
+      line-height: 1.65;
+      max-width: 680px;
+      margin: 1.5rem auto;
+      color: var(--text);
+    }
+    #citacao .autor {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 1.5rem;
+    }
+
+    /* ── GALERIA ── */
+    #galeria {
+      padding: 6rem 5vw;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    #galeria header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    #galeria header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 300;
+      margin: 1rem 0 0.5rem;
+    }
+    #galeria header p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 0.8rem;
+    }
+
+    /* grid assimétrico — a assinatura do design */
+    .mosaic {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1rem;
+    }
+    .mosaic .card { position: relative; overflow: hidden; border-radius: 4px; }
+    .mosaic .card-tall { grid-row: span 2; }
+
+    .card img,
+    .card .ph {
+      width: 100%; height: 100%;
+      display: block;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      min-height: 220px;
+    }
+    .card:hover img { transform: scale(1.04); }
+
+    .card .ph {
+      background: linear-gradient(135deg, var(--beige) 0%, #e8ddd0 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: var(--gold);
+      font-size: 2rem;
+      opacity: 0.7;
+    }
+    .card .ph small {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+    .card-tall .ph { min-height: 460px; }
+
+    /* legenda hover */
+    .card .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(58,49,40,0);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.2rem;
+      transition: background 0.3s;
+    }
+    .card:hover .overlay { background: rgba(58,49,40,0.35); }
+    .card .overlay span {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(255,255,255,0);
+      transition: color 0.3s;
+    }
+    .card:hover .overlay span { color: rgba(255,255,255,0.92); }
+
+    /* ── MENSAGEM ── */
+    #mensagem {
+      background: var(--beige);
+      padding: 7rem 2rem;
+    }
+    .mensagem-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .mensagem-inner h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 300;
+      margin: 1.2rem 0 2rem;
+    }
+    .mensagem-inner p {
+      font-size: 1rem;
+      line-height: 2;
+      color: var(--muted);
+      margin-bottom: 1.4rem;
+    }
+
+    /* ── GALERIA DESTAQUE COM FRASES ── */
+    #destaques {
+      padding: 6rem 5vw;
+      background: var(--white);
+    }
+    #destaques header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    #destaques header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 300;
+      margin-top: 1rem;
+    }
+    #destaques header p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 0.8rem;
+    }
+    .destaques-lista {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 5rem;
+    }
+    .destaque-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .destaque-item.invertido { direction: rtl; }
+    .destaque-item.invertido > * { direction: ltr; }
+    .destaque-foto {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, var(--beige) 0%, #e8ddd0 100%);
+    }
+    .destaque-foto img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .destaque-foto .ph {
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: var(--gold);
+      font-size: 2.2rem;
+      opacity: 0.6;
+    }
+    .destaque-foto .ph small {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+    /* borda dourada decorativa deslocada */
+    .destaque-foto::before {
+      content: '';
+      position: absolute;
+      inset: -10px -10px auto auto;
+      width: 60%; height: 60%;
+      border-top: 1px solid var(--gold-lt);
+      border-right: 1px solid var(--gold-lt);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .destaque-item.invertido .destaque-foto::before {
+      inset: -10px auto auto -10px;
+      border-right: none;
+      border-left: 1px solid var(--gold-lt);
+    }
+    .destaque-texto { padding: 1rem 0; }
+    .destaque-num {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+    .destaque-frase {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+      font-weight: 300;
+      line-height: 1.55;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      min-height: 3em;
+    }
+    .destaque-frase.carregando {
+      color: var(--sand);
+      font-style: normal;
+      font-size: 0.9rem;
+      font-family: 'Jost', sans-serif;
+    }
+    .destaque-caption {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      border-top: 1px solid var(--beige);
+      padding-top: 1rem;
+    }
+    @media (max-width: 768px) {
+      .destaque-item, .destaque-item.invertido {
+        grid-template-columns: 1fr;
+        direction: ltr;
+        gap: 1.5rem;
+      }
+      .moments-grid::before { display: none; }
+    }
+
+    /* ── CARTA FINAL ── */
+    #carta {
+      padding: 7rem 2rem;
+      max-width: 660px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    #carta h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 300;
+      margin: 1.2rem 0 2.5rem;
+    }
+    .carta-corpo {
+      text-align: left;
+      font-size: 1rem;
+      line-height: 2.1;
+      color: var(--muted);
+    }
+    .carta-corpo p { margin-bottom: 1.2rem; }
+    .assinatura {
+      margin-top: 2.5rem;
+      text-align: right;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--text);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: var(--beige);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sand);
+      border-top: 1px solid var(--sand);
+    }
+    footer .gold { color: var(--gold); }
+
+    /* ── REVEAL SCROLL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVO ── */
+    @media (max-width: 768px) {
+
+      /* player menor no mobile */
+      #music-player { top: 1rem; right: 1rem; padding: 0.4rem 0.8rem 0.4rem 0.4rem; }
+      #music-label { display: none; }
+
+      /* hero: foto em cima, texto embaixo */
+      #hero {
+        grid-template-columns: 1fr;
+        grid-template-rows: 52vw auto;
+        min-height: unset;
+      }
+      .hero-photo {
+        height: 52vw;
+        min-height: 240px;
+        order: -1;
+      }
+      .hero-photo::after {
+        background: linear-gradient(to bottom, transparent 60%, rgba(250,247,242,0.5) 100%);
+      }
+      .hero-text {
+        padding: 2.5rem 1.5rem 3rem;
+      }
+      .hero-text h1 { font-size: clamp(2rem, 9vw, 3rem); }
+      .hero-text p  { max-width: 100%; font-size: 0.95rem; }
+
+      /* citação */
+      #citacao { padding: 4rem 1.5rem; }
+
+      /* galeria mosaico: 2 colunas, sem card alto */
+      #galeria { padding: 4rem 1.2rem; }
+      .mosaic {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .mosaic .card-tall { grid-row: span 1; }
+      .card img, .card .ph { min-height: 160px; }
+      .card-tall .ph { min-height: 160px; }
+
+      /* mensagem */
+      #mensagem { padding: 4rem 1.5rem; }
+
+      /* destaques: foto em cima, texto embaixo — sempre */
+      #destaques { padding: 4rem 1.2rem; }
+      .destaques-lista { gap: 3.5rem; }
+      .destaque-item,
+      .destaque-item.invertido {
+        grid-template-columns: 1fr;
+        direction: ltr;
+        gap: 1.2rem;
+      }
+      .destaque-foto { aspect-ratio: 16/9; }
+      .destaque-foto::before { display: none; }
+      .destaque-frase { font-size: clamp(1.1rem, 4.5vw, 1.4rem); }
+
+      /* carta */
+      #carta { padding: 4rem 1.5rem 5rem; }
+      .carta-corpo { font-size: 0.97rem; }
+
+      /* footer */
+      footer { padding: 2rem 1rem; font-size: 0.68rem; }
+    }
+
+    /* telas muito pequenas (320px) */
+    @media (max-width: 380px) {
+      .hero-text h1 { font-size: 1.9rem; }
+      .mosaic { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PLAYER -->
+<div id="music-player">
+  <button id="play-btn" aria-label="Tocar ou pausar música">▶</button>
+  <span id="music-label">Nossa música</span>
+</div>
+<audio id="audio" loop>
+  <!-- ✏️ TROQUE PELO CAMINHO DA SUA MÚSICA -->
+  <source src="musica.mp3" type="audio/mpeg" />
+</audio>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text reveal">
+    <p class="eyebrow">12 de junho · Dia dos Namorados</p>
+    <h1>
+      <!-- ✏️ TROQUE PELOS NOMES -->
+      Com <em>você</em>,<br />tudo faz sentido.
+    </h1>
+    <p>
+      <!-- ✏️ TROQUE PELO SEU TEXTO DE ABERTURA -->
+      Algumas histórias não precisam de muitas palavras — elas falam por si só, em cada olhar, em cada momento dividido em silêncio.
+    </p>
+    <p class="hero-date">Para a mulher da minha vida</p>
+  </div>
+  <div class="hero-photo">
+    <video class="main-video" autoplay loop muted playsinline>
+      <source src="WhatsApp Video 2026-06-12 at 19.15.29.mp4" type="video/mp4">
+      Seu navegador não suporta a reprodução de vídeos.
+    </video>
+  </div>
+</section>
+
+<!-- CITAÇÃO -->
+<section id="citacao" class="reveal">
+  <span class="gold-line"></span>
+  <blockquote>
+    <!-- ✏️ TROQUE POR UMA FRASE OU CITAÇÃO QUE FAÇA SENTIDO PRA VOCÊS -->
+    "Amar é encontrar na simplicidade do outro uma complexidade que nunca se esgota."
+  </blockquote>
+  <p class="autor">— Para sempre, nós duas</p>
+</section>
+
+<!-- GALERIA -->
+<section id="galeria">
+  <header class="reveal">
+    <span class="gold-line"></span>
+    <h2>Nossa história em imagens</h2>
+    <p>Cada foto é um capítulo que eu releio com saudade.</p>
+  </header>
+
+  <div class="mosaic">
+
+    <!-- FOTO GRANDE (esquerda, ocupa 2 linhas) -->
+    <!-- ✏️ Troque por: <img src="foto1.jpg" alt="..." /> -->
+    <div class="card card-tall reveal">
+      <div class="ph"><img src="WhatsApp Image 2026-06-12 at 19.20.52.jpeg" /></div>
+      <div class="overlay"><span>Nós Duas🤍</span></div>
+    </div>
+
+    <!-- FOTO 2 -->
+    <div class="card reveal">
+      <div class="ph"><img src="WhatsApp Image 2026-06-12 at 19.10.34.jpeg" /></div>
+      <div class="overlay"><span>Todo momento é magico com você ✨</span></div>
+    </div>
+
+    <!-- FOTO 3 -->
+    <div class="card reveal">
+      <div class="ph"><img src="WhatsApp Image 2026-06-12 at 19.10.50.jpeg" /></div>
+      <div class="overlay"><span>O dia mais lindo 🌸</span></div>
+    </div>
+
+    <!-- FOTO 4 -->
+    <div class="card reveal" style="grid-column: span 2;">
+      <div class="ph"><img src="WhatsApp Image 2026-06-12 at 19.09.47.jpeg" /></div>
+      <div class="overlay"><span>Juntas, sempre 💛</span></div>
+    </div>
+
+
+  </div>
+</section>
+
+<!-- MENSAGEM -->
+<section id="mensagem">
+  <div class="mensagem-inner reveal">
+    <span class="gold-line"></span>
+    <h2>O que sinto quando estou com você</h2>
+    <p>
+      <!-- ✏️ TROQUE PELO SEU TEXTO PESSOAL -->
+      Tem coisas que só eu sei: como a sua risada muda a temperatura de qualquer lugar, como a sua presença transforma um dia comum em algo que vale guardar. Desde que você chegou, o mundo ficou mais bonito de se viver.
+    </p>
+    <p>
+      Não foi só o amor que cresceu — fui eu também, ao seu lado. Obrigada por me escolher todos os dias, nos pequenos gestos e nas grandes decisões.
+    </p>
+  </div>
+</section>
+
+<!-- GALERIA DESTAQUE COM FRASES -->
+<section id="destaques">
+  <header class="reveal">
+    <span class="gold-line"></span>
+    <h2>Cada foto, uma lembrança</h2>
+    <p>As frases abaixo são geradas com carinho a partir de cada momento.</p>
+  </header>
+
+  <div class="destaques-lista">
+
+    <!-- DESTAQUE 1 -->
+    <div class="destaque-item reveal">
+      <div class="destaque-foto">
+        <!-- ✏️ Troque por: <img src="destaque1.jpg" alt="..." /> -->
+        <div class="ph"><video src="WhatsApp Video 2026-06-12 at 19.15.02.mp4" autoplay loop muted playsinline></video></div>
+      </div>
+      <div class="destaque-texto">
+        <span class="destaque-num">✦ lembrança 01</span>
+        <p class="destaque-frase carregando" data-caption="Nosso primeiro encontro">Gerando frase...</p>
+        <!-- ✏️ Troque data-caption pela descrição da foto para gerar a frase -->
+        <p class="destaque-caption">A magia nos acompanha </p>
+      </div>
+    </div>
+
+    <!-- DESTAQUE 2 -->
+    <div class="destaque-item invertido reveal">
+      <div class="destaque-foto">
+        <div class="ph"><video src="WhatsApp Video 2026-06-12 at 19.11.06.mp4" autoplay loop muted playsinline></video></div>
+      </div>
+      <div class="destaque-texto">
+        <span class="destaque-num">✦ lembrança 02</span>
+        <p class="destaque-frase carregando" data-caption="Amor é redescoberto todo dia.">Gerando frase...</p>
+        <p class="destaque-caption">Um amor que se renova a cada dia</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CARTA FINAL -->
+<section id="carta" class="reveal">
+  <span class="gold-line"></span>
+  <h2>Uma carta só pra você</h2>
+  <div class="carta-corpo">
+    <p>
+      <!-- ✏️ TROQUE PELO TEXTO DA CARTA -->
+      Às vezes fico pensando em como seria o meu dia a dia sem você — e não consigo imaginar. É que você entrou tão fundo que já não sei onde eu termino e onde você começa.
+    </p>
+    <p>
+      Você é minha calma nos dias difíceis, minha cumplicidade nas gargalhadas, meu lar onde quer que estejamos. Obrigada por me amar do jeito que você ama: com leveza, com presença, com toda a sua beleza.
+    </p>
+    <p>
+      Feliz Dia dos Namorados, amor. Que a gente nunca pare de se escolher.
+    </p>
+  </div>
+  <p class="assinatura">
+    Com todo o meu amor,<br />
+    <!-- ✏️ TROQUE PELO SEU NOME -->
+    Darlene Ferreira 🤍
+  </p>
+</section>
+
+<footer>
+  feito com amor · <span class="gold">12 de junho · Dia dos Namorados</span>
+</footer>
+
+<script>
+/* ── PLAYER ── */
+(function(){
+  const audio = document.getElementById('audio');
+  const btn   = document.getElementById('play-btn');
+  btn.addEventListener('click', () => {
+    if (audio.paused) { audio.play().catch(()=>{}); btn.textContent = '⏸'; }
+    else              { audio.pause();                btn.textContent = '▶'; }
+  });
+  document.addEventListener('click', function once() {
+    if (audio.paused) audio.play().then(()=>{ btn.textContent='⏸'; }).catch(()=>{});
+    document.removeEventListener('click', once);
+  }, { once: true });
+})();
+
+/* ── FRASES ROMÂNTICAS VIA CLAUDE API ── */
+(function(){
+  const frases = document.querySelectorAll('.destaque-frase');
+
+  async function gerarFrase(caption) {
+    try {
+      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 1000,
+          messages: [{
+            role: 'user',
+            content: `Crie uma frase romântica, poética e delicada em português brasileiro para uma foto de casal feminino com a seguinte descrição: "${caption}". A frase deve ter entre 15 e 30 palavras, estar no estilo de uma declaração de amor elegante, sem ser exagerada. Responda APENAS com a frase, sem aspas, sem explicações.`
+          }]
+        })
+      });
+      const data = await resp.json();
+      return data.content?.[0]?.text?.trim() || null;
+    } catch(e) {
+      return null;
+    }
+  }
+
+  const frasesFallback = [
+    'Naquele momento entendi que alguns encontros mudam a forma como o mundo inteiro parece.',
+    'Há lugares que só existem quando estamos juntas — e eu quero morar em todos eles.',
+    'O ordinário ganhou outro nome quando você apareceu: extraordinário.',
+    'Com você aprendi que o amor mais bonito é aquele que se renova em cada amanhecer.'
+  ];
+
+  frases.forEach((el, i) => {
+    const caption = el.dataset.caption || 'um momento especial do casal';
+    gerarFrase(caption).then(frase => {
+      el.classList.remove('carregando');
+      el.textContent = frase || frasesFallback[i % frasesFallback.length];
+    });
+  });
+})();
+(function(){
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  els.forEach(el => obs.observe(el));
+})();
+</script>
+
+</body>
+</html>
