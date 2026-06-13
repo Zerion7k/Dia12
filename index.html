@@ -496,19 +496,22 @@
       /* citação */
       #citacao { padding: 4rem 1.5rem; }
 
-      /* galeria mosaico no mobile: 1 coluna, tudo empilhado */
-      #galeria { padding: 4rem 1.2rem; }
+      /* galeria mosaico no mobile: Mantém o mosaico lindo sem cortar os rostos */
+      #galeria { padding: 2rem 1rem; }
+      
       .mosaic {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
+        grid-template-columns: 1.2fr 1fr 1fr; /* Mantém as 3 colunas do mosaico original */
+        grid-auto-rows: 110px; /* Reduz a altura das linhas para o celular não esticar demais */
+        gap: 0.5rem; /* Diminui o espaçamento para ganhar espaço de tela */
       }
-      .mosaic .card-tall { grid-row: span 1; }
-      .mosaic .card[style*="span 2"] { grid-column: span 1; }
-      .card img, .card video, .card .ph { min-height: 260px; }
-      .card-tall img, .card-tall video { min-height: 300px; }
-
-      /* mensagem */
-      #mensagem { padding: 4rem 1.5rem; }
+      
+      .mosaic .card-tall { grid-row: span 2; }
+      .mosaic .card[style*="span 2"] { grid-column: span 2; }
+      
+      /* Ajusta a posição de exibição para manter os rostos centralizados */
+      .card img, .card video {
+        object-position: center center !important;
+      }
 
       /* destaques: foto em cima, texto embaixo — sempre */
       #destaques { padding: 4rem 1.2rem; }
