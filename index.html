@@ -139,23 +139,6 @@
       object-position: center top;
       display: block;
     }
-    /* placeholder quando não há foto */
-    .hero-photo .img-placeholder {
-      width: 100%; height: 100%;
-      background: linear-gradient(160deg, var(--beige) 0%, var(--sand) 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.8rem;
-      color: var(--gold);
-    }
-    .hero-photo .img-placeholder .icon { font-size: 3rem; opacity: 0.5; }
-    .hero-photo .img-placeholder small {
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      color: var(--muted);
-    }
     /* sobreposição dourada suave */
     .hero-photo::after {
       content: '';
@@ -189,15 +172,15 @@
       margin-top: 1.5rem;
     }
 
-    /* ── GALERIA ── */
+    /* ── NOVA GALERIA FORMATO STORIES (CARDS VERTICAIS) ── */
     #galeria {
-      padding: 6rem 5vw;
-      max-width: 1100px;
+      padding: 6rem 2rem;
+      max-width: 1200px;
       margin: 0 auto;
     }
     #galeria header {
       text-align: center;
-      margin-bottom: 4rem;
+      margin-bottom: 3rem;
     }
     #galeria header h2 {
       font-family: 'Cormorant Garamond', serif;
@@ -211,64 +194,68 @@
       margin-top: 0.8rem;
     }
 
-    /* grid assimétrico — a assinatura do design */
-    .mosaic {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr 1fr;
-      grid-auto-rows: 240px;
-      gap: 1rem;
+    /* Container dos cards: Alinhados lado a lado perfeitamente */
+    .stories-container {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      width: 100%;
     }
-    .mosaic .card { position: relative; overflow: hidden; border-radius: 4px; }
-    .mosaic .card-tall { grid-row: span 2; }
 
-    .card img,
-    .card video,
-    .card .ph {
-      width: 100%; height: 100%;
-      display: block;
+    /* Formato do Card: Proporção exata de um Story/Celular (9:16) */
+    .story-card {
+      position: relative;
+      flex: 1;
+      max-width: 260px;
+      aspect-ratio: 9 / 16;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(58,49,40,0.08);
+      background: var(--beige);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .story-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(184,154,90,0.18);
+    }
+
+    .story-card img,
+    .story-card video {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       object-position: center center;
-      transition: transform 0.5s ease;
-    }
-    .card:hover img,
-    .card:hover video { transform: scale(1.04); }
-
-    .card .ph {
-      background: linear-gradient(135deg, var(--beige) 0%, #e8ddd0 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      color: var(--gold);
-      font-size: 2rem;
-      opacity: 0.7;
-    }
-    .card .ph small {
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      color: var(--muted);
+      display: block;
     }
 
-    /* legenda hover */
-    .card .overlay {
+    /* legenda hover estilizada */
+    .story-card .overlay {
       position: absolute;
       inset: 0;
-      background: rgba(58,49,40,0);
+      background: linear-gradient(to top, rgba(58,49,40,0.8) 0%, rgba(58,49,40,0) 50%);
       display: flex;
       align-items: flex-end;
       padding: 1.2rem;
-      transition: background 0.3s;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
-    .card:hover .overlay { background: rgba(58,49,40,0.35); }
-    .card .overlay span {
+    .story-card:hover .overlay { opacity: 1; }
+    .story-card .overlay span {
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
-      font-size: 1rem;
-      color: rgba(255,255,255,0);
-      transition: color 0.3s;
+      font-size: 1.1rem;
+      color: #ffffff;
     }
-    .card:hover .overlay span { color: rgba(255,255,255,0.92); }
+
+    /* Indicador visual de deslizar para o mobile */
+    .swipe-hint {
+      display: none;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--gold);
+      margin-top: 1rem;
+      letter-spacing: 0.05em;
+    }
 
     /* ── MENSAGEM ── */
     #mensagem {
@@ -340,22 +327,6 @@
       object-fit: cover;
       display: block;
     }
-    .destaque-foto .ph {
-      width: 100%; height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      color: var(--gold);
-      font-size: 2.2rem;
-      opacity: 0.6;
-    }
-    .destaque-foto .ph small {
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-    }
     /* borda dourada decorativa deslocada */
     .destaque-foto::before {
       content: '';
@@ -403,14 +374,6 @@
       letter-spacing: 0.05em;
       border-top: 1px solid var(--beige);
       padding-top: 1rem;
-    }
-    @media (max-width: 768px) {
-      .destaque-item, .destaque-item.invertido {
-        grid-template-columns: 1fr;
-        direction: ltr;
-        gap: 1.5rem;
-      }
-      .moments-grid::before { display: none; }
     }
 
     /* ── CARTA FINAL ── */
@@ -466,78 +429,60 @@
       transform: none;
     }
 
-    /* ── RESPONSIVO ── */
+    /* ── CONFIGURAÇÕES EXCLUSIVAS PARA CELULAR (MOBILE) ── */
     @media (max-width: 768px) {
-
-      /* player menor no mobile */
       #music-player { top: 1rem; right: 1rem; padding: 0.4rem 0.8rem 0.4rem 0.4rem; }
       #music-label { display: none; }
 
-      /* hero: foto em cima, texto embaixo */
       #hero {
         grid-template-columns: 1fr;
         grid-template-rows: 52vw auto;
         min-height: unset;
       }
-      .hero-photo {
-        height: 52vw;
-        min-height: 240px;
-        order: -1;
-      }
-      .hero-photo::after {
-        background: linear-gradient(to bottom, transparent 60%, rgba(250,247,242,0.5) 100%);
-      }
-      .hero-text {
-        padding: 2.5rem 1.5rem 3rem;
-      }
+      .hero-photo { height: 52vw; min-height: 240px; order: -1; }
+      .hero-photo::after { background: linear-gradient(to bottom, transparent 60%, rgba(250,247,242,0.5) 100%); }
+      .hero-text { padding: 2.5rem 1.5rem 3rem; }
       .hero-text h1 { font-size: clamp(2rem, 9vw, 3rem); }
       .hero-text p  { max-width: 100%; font-size: 0.95rem; }
 
-      /* citação */
       #citacao { padding: 4rem 1.5rem; }
 
-      /* galeria mosaico no mobile: Mantém o mosaico lindo sem cortar os rostos */
-      #galeria { padding: 2rem 1rem; }
+      /* TRANSFORMAÇÃO DA GALERIA NO CELULAR: Carrossel de Stories Lado a Lado */
+      #galeria { padding: 4rem 0 4rem 1rem; overflow: hidden; }
       
-      .mosaic {
-        grid-template-columns: 1.2fr 1fr 1fr; /* Mantém as 3 colunas do mosaico original */
-        grid-auto-rows: 110px; /* Reduz a altura das linhas para o celular não esticar demais */
-        gap: 0.5rem; /* Diminui o espaçamento para ganhar espaço de tela */
+      .stories-container {
+        justify-content: flex-start;
+        gap: 1rem;
+        overflow-x: auto; /* Permite deslizar para o lado */
+        scroll-snap-type: x mandatory;
+        padding-right: 2rem;
+        -webkit-overflow-scrolling: touch;
       }
       
-      .mosaic .card-tall { grid-row: span 2; }
-      .mosaic .card[style*="span 2"] { grid-column: span 2; }
-      
-      /* Ajusta a posição de exibição para manter os rostos centralizados */
-      .card img, .card video {
-        object-position: center center !important;
+      .story-card {
+        flex: 0 0 72vw; /* Define a largura ideal do card na tela do celular */
+        max-width: 280px;
+        scroll-snap-align: start;
       }
 
-      /* destaques: foto em cima, texto embaixo — sempre */
+      .story-card .overlay {
+        opacity: 1; /* Mantém a legenda sempre visível no celular já que não existe hover */
+        background: linear-gradient(to top, rgba(58,49,40,0.85) 0%, rgba(58,49,40,0) 40%);
+      }
+
+      .swipe-hint { display: block; padding-right: 1rem; } /* Ativa o texto "Deslize para o lado" */
+
+      #mensagem { padding: 4rem 1.5rem; }
       #destaques { padding: 4rem 1.2rem; }
       .destaques-lista { gap: 3.5rem; }
-      .destaque-item,
-      .destaque-item.invertido {
-        grid-template-columns: 1fr;
-        direction: ltr;
-        gap: 1.2rem;
-      }
+      .destaque-item, .destaque-item.invertido { grid-template-columns: 1fr; direction: ltr; gap: 1.2rem; }
       .destaque-foto { aspect-ratio: unset; }
       .destaque-foto::before { display: none; }
       .destaque-frase { font-size: clamp(1.1rem, 4.5vw, 1.4rem); }
 
-      /* carta */
       #carta { padding: 4rem 1.5rem 5rem; }
       .carta-corpo { font-size: 0.97rem; }
-
-      /* footer */
       footer { padding: 2rem 1rem; font-size: 0.68rem; }
-    }
-
-    /* telas muito pequenas (320px) */
-    @media (max-width: 380px) {
-      .hero-text h1 { font-size: 1.9rem; }
-      .mosaic { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -548,27 +493,21 @@
   <button id="play-btn" aria-label="Tocar ou pausar música">▶</button>
   <span id="music-label">Nossa música</span>
 </div>
-<audio id="audio" loop>
-  <!-- ✏️ TROQUE PELO CAMINHO DA SUA MÚSICA -->
-  <source src="musica.mp3" type="audio/mpeg" />
-</audio>
+<div style="display:none;">
+  <audio id="audio" loop>
+    <source src="musica.mp3" type="audio/mpeg" />
+  </audio>
+</div>
 
 <!-- HERO -->
 <section id="hero">
   <div class="hero-text reveal">
     <p class="eyebrow">12 de junho · Dia dos Namorados</p>
-    <h1>
-      <!-- ✏️ TROQUE PELOS NOMES -->
-      Com <em>você</em>,<br />tudo faz sentido.
-    </h1>
-    <p>
-      <!-- ✏️ TROQUE PELO SEU TEXTO DE ABERTURA -->
-      Algumas histórias não precisam de muitas palavras — elas falam por si só, em cada olhar, em cada momento dividido em silêncio.
-    </p>
+    <h1>Com <em>você</em>,<br />tudo faz sentido.</h1>
+    <p>Algumas histórias não precisam de muitas palavras — elas falam por si só, em cada olhar, em cada momento dividido em silêncio.</p>
     <p class="hero-date">Para a mulher da minha vida</p>
   </div>
   <div class="hero-photo">
-    <!-- Corrigido o nome do arquivo com as letras maiúsculas idênticas ao sistema -->
     <img class="main-img" src="WhatsApp Image 2026-06-12 at 19.09.47.jpeg" alt="Juntas, sempre">
   </div>
 </section>
@@ -576,43 +515,41 @@
 <!-- CITAÇÃO -->
 <section id="citacao" class="reveal">
   <span class="gold-line"></span>
-  <blockquote>
-    <!-- ✏️ TROQUE POR UMA FRASE OU CITAÇÃO QUE FAÇA SENTIDO PRA VOCÊS -->
-    "Amar é encontrar na simplicidade do outro uma complexidade que nunca se esgota."
-  </blockquote>
+  <blockquote>"Amar é encontrar na simplicidade do outro uma complexidade que nunca se esgota."</blockquote>
   <p class="autor">— Para sempre, nós duas</p>
 </section>
 
-<!-- GALERIA -->
+<!-- GALERIA FORMATO STORIES -->
 <section id="galeria">
   <header class="reveal">
     <span class="gold-line"></span>
     <h2>Nossa história em imagens</h2>
-    <p>Cada foto é um capítulo que eu releio com saudade.</p>
+    <p>Cada momento é um capítulo que eu guardo com carinho.</p>
   </header>
 
-  <div class="mosaic">
+  <!-- Container dos Stories -->
+  <div class="stories-container">
 
-    <!-- FOTO GRANDE (esquerda, ocupa 2 linhas de altura) -->
-    <div class="card card-tall reveal">
+    <!-- CARD 1: FOTO 19.20.52 -->
+    <div class="story-card reveal">
       <img src="WhatsApp Image 2026-06-12 at 19.20.52.jpeg" alt="Nós Duas" />
-      <div class="overlay"><span>Nós Duas🤍</span></div>
+      <div class="overlay"><span>Nós Duas 🤍</span></div>
     </div>
 
-    <!-- FOTO QUADRADA (meio superior) -->
-    <div class="card reveal">
+    <!-- CARD 2: FOTO 19.10.34 -->
+    <div class="story-card reveal">
       <img src="WhatsApp Image 2026-06-12 at 19.10.34.jpeg" alt="Todo momento é mágico" />
-      <div class="overlay"><span>Todo momento é magico com você ✨</span></div>
+      <div class="overlay"><span>Todo momento é mágico com você ✨</span></div>
     </div>
 
-    <!-- FOTO VERTICAL MENOR (direita superior) -->
-    <div class="card reveal">
+    <!-- CARD 3: FOTO 19.10.50 -->
+    <div class="story-card reveal">
       <img src="WhatsApp Image 2026-06-12 at 19.10.50.jpeg" alt="O dia mais lindo" />
       <div class="overlay"><span>O dia mais lindo 🌸</span></div>
     </div>
 
-    <!-- VÍDEO COMPARTILHADO (ocupa as duas colunas inferiores ao lado da foto grande) -->
-    <div class="card reveal" style="grid-column: span 2;">
+    <!-- CARD 4: VÍDEO VERTICAL 19.15.29 -->
+    <div class="story-card reveal">
       <video autoplay loop muted playsinline>
         <source src="WhatsApp Video 2026-06-12 at 19.15.29.mp4" type="video/mp4" />
       </video>
@@ -620,6 +557,9 @@
     </div>
 
   </div>
+  
+  <!-- Dica visual para deslizar no celular -->
+  <div class="swipe-hint">‹ deslize para o lado para ver mais ›</div>
 </section>
 
 <!-- MENSAGEM -->
@@ -627,13 +567,8 @@
   <div class="mensagem-inner reveal">
     <span class="gold-line"></span>
     <h2>O que sinto quando estou com você</h2>
-    <p>
-      <!-- ✏️ TROQUE PELO SEU TEXTO PESSOAL -->
-      Tem coisas que só eu sei: como a sua risada muda a temperatura de qualquer lugar, como a sua presença transforma um dia comum em algo que vale guardar. Desde que você chegou, o mundo ficou mais bonito de se viver.
-    </p>
-    <p>
-      Não foi só o amor que cresceu — fui eu também, ao seu lado. Obrigada por me escolher todos os dias, nos pequenos gestos e nas grandes decisões.
-    </p>
+    <p>Tem coisas que só eu sei: como a sua risada muda a temperatura de qualquer lugar, como a sua presença transforma um dia comum em algo que vale guardar. Desde que você chegou, o mundo ficou mais bonito de se viver.</p>
+    <p>Não foi só o amor que cresceu — fui eu também, ao seu lado. Obrigada por me escolher todos os dias, nos pequenos gestos e nas grandes decisões.</p>
   </div>
 </section>
 
@@ -646,7 +581,6 @@
   </header>
 
   <div class="destaques-lista">
-
     <!-- DESTAQUE 1 — vídeo vertical -->
     <div class="destaque-item reveal">
       <div class="destaque-foto" style="aspect-ratio: 9/16; max-height: 70vh;">
@@ -670,7 +604,6 @@
         <p class="destaque-caption">Um amor que se renova a cada dia</p>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -679,27 +612,14 @@
   <span class="gold-line"></span>
   <h2>Uma carta só pra você</h2>
   <div class="carta-corpo">
-    <p>
-      <!-- ✏️ TROQUE PELO TEXTO DA CARTA -->
-      Às vezes fico pensando em como seria o meu dia a dia sem você — e não consigo imaginar. É que você entrou tão fundo que já não sei onde eu termino e onde você começa.
-    </p>
-    <p>
-      Você é minha calma nos dias difíceis, minha cumplicidade nas gargalhadas, meu lar onde quer que estejamos. Obrigada por me amar do jeito que você ama: com leveza, com presença, com toda a sua beleza.
-    </p>
-    <p>
-      Feliz Dia dos Namorados, amor. Que a gente nunca pare de se escolher.
-    </p>
+    <p>Às vezes fico pensando em como seria o meu dia a dia sem você — e não consigo imaginar. É que você entrou tão fundo que já não sei onde eu termino e onde você começa.</p>
+    <p>Você é minha calma nos dias difíceis, minha cumplicidade nas gargalhadas, meu lar onde quer que estejamos. Obrigada por me amar do jeito que você ama: com leveza, com presença, com toda a sua beleza.</p>
+    <p>Feliz Dia dos Namorados, amor. Que a gente nunca pare de se escolher.</p>
   </div>
-  <p class="assinatura">
-    Com todo o meu amor,<br />
-    <!-- ✏️ TROQUE PELO SEU NOME -->
-    Darlene Ferreira 🤍
-  </p>
+  <p class="assinatura">Com todo o meu amor,<br />Darlene Ferreira 🤍</p>
 </section>
 
-<footer>
-  feito com amor · <span class="gold">12 de junho · Dia dos Namorados</span>
-</footer>
+<footer>feito com amor · <span class="gold">12 de junho · Dia dos Namorados</span></footer>
 
 <script>
 /* ── PLAYER ── */
@@ -716,10 +636,9 @@
   }, { once: true });
 })();
 
-/* ── FRASES ROMÂNTICAS VIA CLAUDE API ── */
+/* ── FRASES ROMÂNTICAS ── */
 (function(){
   const frases = document.querySelectorAll('.destaque-frase');
-
   async function gerarFrase(caption) {
     try {
       const resp = await fetch('https://api.anthropic.com/v1/messages', {
@@ -730,15 +649,13 @@
           max_tokens: 1000,
           messages: [{
             role: 'user',
-            content: `Crie uma frase romântica, poética e delicada em português brasileiro para uma foto de casal feminino com a seguinte descrição: "${caption}". A frase deve ter entre 15 e 30 palavras, estar no estilo de uma declaração de amor elegant, sem ser exagerada. Responda APENAS com a frase, sem aspas, sem explicações.`
+            content: `Crie uma frase romântica, poética e delicada em português brasileiro para uma foto de casal feminino com a seguinte descrição: "${caption}". A frase deve ter entre 15 e 30 palavras, estar no estilo de uma declaração de amor elegante, sem ser exagerada. Responda APENAS com a frase, sem aspas, sem explicações.`
           }]
         })
       });
       const data = await resp.json();
       return data.content?.[0]?.text?.trim() || null;
-    } catch(e) {
-      return null;
-    }
+    } catch(e) { return null; }
   }
 
   const frasesFallback = [
@@ -767,6 +684,5 @@
   els.forEach(el => obs.observe(el));
 })();
 </script>
-
 </body>
 </html>
