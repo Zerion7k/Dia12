@@ -498,15 +498,16 @@
       /* citação */
       #citacao { padding: 4rem 1.5rem; }
 
-      /* galeria mosaico: 2 colunas, sem card alto */
+      /* galeria mosaico no mobile: 1 coluna, tudo empilhado */
       #galeria { padding: 4rem 1.2rem; }
       .mosaic {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         grid-template-rows: auto;
       }
       .mosaic .card-tall { grid-row: span 1; }
-      .card img, .card .ph { min-height: 160px; }
-      .card-tall .ph { min-height: 160px; }
+      .mosaic .card[style*="span 2"] { grid-column: span 1; }
+      .card img, .card video, .card .ph { min-height: 260px; }
+      .card-tall img, .card-tall video { min-height: 300px; }
 
       /* mensagem */
       #mensagem { padding: 4rem 1.5rem; }
@@ -566,10 +567,7 @@
     <p class="hero-date">Para a mulher da minha vida</p>
   </div>
   <div class="hero-photo">
-    <video class="main-video" autoplay loop muted playsinline>
-      <source src="WhatsApp Video 2026-06-12 at 19.15.29.mp4" type="video/mp4">
-      Seu navegador não suporta a reprodução de vídeos.
-    </video>
+    <img class="main-img" src="whatsapp imagem 2026-06-12 at 19.09.47.jpeg" alt="Juntas, sempre">
   </div>
 </section>
 
@@ -611,9 +609,11 @@
       <div class="overlay"><span>O dia mais lindo 🌸</span></div>
     </div>
 
-    <!-- FOTO 4 -->
+    <!-- VÍDEO (largura total, fecha o mural) -->
     <div class="card reveal" style="grid-column: span 2;">
-      <img src="WhatsApp Image 2026-06-12 at 19.09.47.jpeg" alt="Juntas, sempre" />
+      <video autoplay loop muted playsinline>
+        <source src="WhatsApp Video 2026-06-12 at 19.15.29.mp4" type="video/mp4" />
+      </video>
       <div class="overlay"><span>Juntas, sempre 💛</span></div>
     </div>
 
